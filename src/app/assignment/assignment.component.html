@@ -1,0 +1,29 @@
+<section class="pd-assignment-section">
+    <h2>Assignment Details</h2>
+    <mat-form-field appearance="fill">
+        <mat-label>Assignment Date</mat-label>
+        <input matInput [(ngModel)]="assignmentDate" [max]="maxDate" [matDatepicker]="picker" (dateChange)="loadAssignments($event.value)">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <table style="width:100%" mat-table [dataSource]="data" class="mat-elevation-z8">
+        <ng-container [matColumnDef]="column.Name" *ngFor="let column of columns">
+          <th mat-header-cell *matHeaderCellDef> {{column.DisplayName}} </th>
+          <td mat-cell *matCellDef="let element"> 
+              <span *ngIf="column.Name != 'deliveries'">{{element[column.Name]}}</span> 
+              <mat-form-field *ngIf="column.Name == 'deliveries'" floatLabel="never">
+                  <input matInput type="number" min="0" placeholder="Enter" [value]="element.deliveries" [(ngModel)]="element.deliveries"/>
+              </mat-form-field>   
+            </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: dataColumns;"></tr>
+      </table>
+      <div class="assignments-btn-container">
+        <button mat-raised-button (click)="resetAssignments()">Reset</button>
+        <button mat-raised-button (click)="saveAssignments()" color="primary">
+            <mat-icon>save</mat-icon>Save
+        </button>
+      </div>
+</section>
